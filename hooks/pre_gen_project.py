@@ -15,3 +15,4 @@ if not match_result:
     sys.exit(1)
 
 print("DEBUG: Validation passed, exiting with 0")
+sys.exit(0)  # ADD THIS LINE - explicitly exit with success
