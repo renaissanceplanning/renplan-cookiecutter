@@ -1,20 +1,17 @@
 import re
 import sys
-import traceback
 
 MODULE_REGEX = r'^[_a-zA-Z][_a-zA-Z0-9]+$'
 module_name = '{{cookiecutter.project_name}}'
 
-try:
-    MODULE_REGEX = r'^[_a-zA-Z][_a-zA-Z0-9]+$'
-    module_name = '{{cookiecutter.project_name}}'
+print(f"DEBUG: module_name = '{module_name}'")
+print(f"DEBUG: regex pattern = {MODULE_REGEX}")
 
-    print(f"DEBUG: module_name = '{module_name}'")
+match_result = re.match(MODULE_REGEX, module_name)
+print(f"DEBUG: regex match result = {match_result}")
 
-    if not re.match(MODULE_REGEX, module_name):
-        print(f'ERROR: "{module_name}" is not a valid Python module name.')
-        sys.exit(1)
-except Exception as e:
-    print(f"EXCEPTION in hook: {e}")
-    traceback.print_exc()
+if not match_result:
+    print(f'ERROR: "{module_name}" is not a valid Python module name.')
     sys.exit(1)
+
+print("DEBUG: Validation passed, exiting with 0")
