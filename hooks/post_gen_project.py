@@ -19,11 +19,15 @@ if __name__ == '__main__':
     try:
         prj_pth_str = str(dir_prj.absolute())
 
-        # Configure git user for this repo if not already set
-        os.system(f'git config --local user.email "dev@renplan.local"')
-        os.system(f'git config --local user.name "Renaissance Planning Dev"')
-
-        git_init_cmd = 'git init && git add -A && git commit -q -m "initial commit"'
+        # Initialize git repo, configure user, add files, and commit
+        git_commands = [
+            'git init',
+            'git config user.email "dev@renplan.local"',
+            'git config user.name "Renaissance Planning Dev"',
+            'git add -A',
+            'git commit -q -m "initial commit"'
+        ]
+        git_init_cmd = ' && '.join(git_commands)
 
         if os.name == 'nt':  # Windows
             result = os.system(f'cd /d "{prj_pth_str}" && {git_init_cmd}')
