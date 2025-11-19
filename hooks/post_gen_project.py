@@ -18,6 +18,11 @@ if __name__ == '__main__':
     # initialize git
     try:
         prj_pth_str = str(dir_prj.absolute())
+
+        # Configure git user for this repo if not already set
+        os.system(f'git config --local user.email "dev@renplan.local"')
+        os.system(f'git config --local user.name "Renaissance Planning Dev"')
+
         git_init_cmd = 'git init && git add -A && git commit -q -m "initial commit"'
 
         if os.name == 'nt':  # Windows
@@ -31,6 +36,7 @@ if __name__ == '__main__':
             print(f"Warning: Git initialization returned code {result}")
     except Exception as e:
         print(f"Warning: Exception during git initialization: {e}")
+        
 # """
 # Licensing
 #
