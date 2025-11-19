@@ -1,6 +1,6 @@
-import os
+pythonimport
+os
 from pathlib import Path
-import subprocess
 
 if __name__ == '__main__':
 
@@ -16,9 +16,10 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"Warning: Could not rename env file: {e}")
 
-    # initialize git - run commands individually to see which fails
+    # initialize git
     try:
-        prj_pth_str = str(dir_prj.absolute())
+        # Change to project directory first
+        os.chdir(dir_prj)
 
         commands = [
             ('git init', 'Initializing git repository'),
@@ -30,10 +31,7 @@ if __name__ == '__main__':
 
         for cmd, description in commands:
             print(f"Running: {description}...")
-            if os.name == 'nt':
-                result = os.system(f'cd /d "{prj_pth_str}" && {cmd}')
-            else:
-                result = os.system(f'cd "{prj_pth_str}" && {cmd}')
+            result = os.system(cmd)
 
             if result != 0:
                 print(f"WARNING: {description} failed with code {result}")
