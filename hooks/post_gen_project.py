@@ -1,4 +1,5 @@
 import subprocess
+import sys
 from pathlib import Path
 
 if __name__ == '__main__':
@@ -40,6 +41,9 @@ if __name__ == '__main__':
 
     except Exception as e:
         print(f"Exception during git initialization: {e}")
+
+    # Explicitly exit with success
+    sys.exit(0)
 
 # """
 # Licensing
