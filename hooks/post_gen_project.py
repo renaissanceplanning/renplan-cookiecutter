@@ -1,8 +1,5 @@
 import os
 from pathlib import Path
-import shutil
-
-# ... keep all the existing code until the git initialization part ...
 
 if __name__ == '__main__':
 
@@ -12,11 +9,13 @@ if __name__ == '__main__':
 
     # rename the env file
     try:
-        env_pth.rename(dir_prj / '.env')
+        if env_pth.exists():
+            env_pth.rename(dir_prj / '.env')
+            print("Renamed env to .env")
     except Exception as e:
         print(f"Warning: Could not rename env file: {e}")
 
-    # initialize git - with better error handling
+    # initialize git
     try:
         prj_pth_str = str(dir_prj.absolute())
         git_init_cmd = 'git init && git add -A && git commit -q -m "initial commit"'
@@ -26,8 +25,10 @@ if __name__ == '__main__':
         else:  # *nix
             result = os.system(f'cd "{prj_pth_str}" && {git_init_cmd}')
 
-        if result != 0:
-            print(f"Warning: Git initialization failed with code {result}")
+        if result == 0:
+            print("Git repository initialized successfully")
+        else:
+            print(f"Warning: Git initialization returned code {result}")
     except Exception as e:
         print(f"Warning: Exception during git initialization: {e}")
 # """
