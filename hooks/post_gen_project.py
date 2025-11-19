@@ -1,4 +1,4 @@
-import os
+import subprocess
 from pathlib import Path
 
 if __name__ == '__main__':
@@ -17,25 +17,26 @@ if __name__ == '__main__':
 
     # initialize git
     try:
-        # Change to project directory first
-        os.chdir(dir_prj)
-
         commands = [
-            ('git init', 'Initializing git repository'),
-            ('git config user.email "dev@renplan.local"', 'Configuring user email'),
-            ('git config user.name "Renaissance Planning Dev"', 'Configuring user name'),
-            ('git add -A', 'Adding files'),
-            ('git commit -q -m "initial commit"', 'Creating initial commit')
+            (['git', 'init'], 'Initializing git repository'),
+            (['git', 'config', 'user.email', 'dev@renplan.local'], 'Configuring user email'),
+            (['git', 'config', 'user.name', 'Renaissance Planning Dev'], 'Configuring user name'),
+            (['git', 'add', '-A'], 'Adding files'),
+            (['git', 'commit', '-q', '-m', 'initial commit'], 'Creating initial commit')
         ]
 
         for cmd, description in commands:
             print(f"Running: {description}...")
-            result = os.system(cmd)
-
-            if result != 0:
-                print(f"WARNING: {description} failed with code {result}")
-            else:
-                print(f"SUCCESS: {description}")
+            try:
+                result = subprocess.run(cmd, cwd=str(dir_prj), capture_output=True, text=True)
+                if result.returncode != 0:
+                    print(f"WARNING: {description} failed with code {result.returncode}")
+                    if result.stderr:
+                        print(f"  stderr: {result.stderr.strip()}")
+                else:
+                    print(f"SUCCESS: {description}")
+            except Exception as e:
+                print(f"ERROR running {description}: {e}")
 
     except Exception as e:
         print(f"Exception during git initialization: {e}")
