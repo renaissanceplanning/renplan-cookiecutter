@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import subprocess
 
 if __name__ == '__main__':
 
@@ -15,32 +16,33 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"Warning: Could not rename env file: {e}")
 
-    # initialize git
+    # initialize git - run commands individually to see which fails
     try:
         prj_pth_str = str(dir_prj.absolute())
 
-        # Initialize git repo, configure user, add files, and commit
-        git_commands = [
-            'git init',
-            'git config user.email "dev@renplan.local"',
-            'git config user.name "Renaissance Planning Dev"',
-            'git add -A',
-            'git commit -q -m "initial commit"'
+        commands = [
+            ('git init', 'Initializing git repository'),
+            ('git config user.email "dev@renplan.local"', 'Configuring user email'),
+            ('git config user.name "Renaissance Planning Dev"', 'Configuring user name'),
+            ('git add -A', 'Adding files'),
+            ('git commit -q -m "initial commit"', 'Creating initial commit')
         ]
-        git_init_cmd = ' && '.join(git_commands)
 
-        if os.name == 'nt':  # Windows
-            result = os.system(f'cd /d "{prj_pth_str}" && {git_init_cmd}')
-        else:  # *nix
-            result = os.system(f'cd "{prj_pth_str}" && {git_init_cmd}')
+        for cmd, description in commands:
+            print(f"Running: {description}...")
+            if os.name == 'nt':
+                result = os.system(f'cd /d "{prj_pth_str}" && {cmd}')
+            else:
+                result = os.system(f'cd "{prj_pth_str}" && {cmd}')
 
-        if result == 0:
-            print("Git repository initialized successfully")
-        else:
-            print(f"Warning: Git initialization returned code {result}")
+            if result != 0:
+                print(f"WARNING: {description} failed with code {result}")
+            else:
+                print(f"SUCCESS: {description}")
+
     except Exception as e:
-        print(f"Warning: Exception during git initialization: {e}")
-        
+        print(f"Exception during git initialization: {e}")
+
 # """
 # Licensing
 #
