@@ -1,5 +1,5 @@
 {
-    "project_name": "renplan-project",
+    "project_name": "renplan_project",
     "repo_name": "{{cookiecutter.project_name.lower().replace(' ', '-')}}",
 	"support_library": "{{cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_')}}",
     "author_name": "Renaissance Planning",

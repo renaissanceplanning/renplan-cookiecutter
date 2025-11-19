@@ -14,4 +14,4 @@ if not match_result:
     print(f'ERROR: "{module_name}" is not a valid Python module name.')
     sys.exit(1)
 
-print("DEBUG: Validation passed, exiting with 0") 
+print("DEBUG: Validation passed, exiting with 0")
